@@ -1,0 +1,30 @@
+<% if users.any? %>
+  <ul class="list-unstyled">
+    <% users.each do |user| %>
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="card">
+            <div class="card-header">
+              <img class="rounded img-fluid" src="<%= gravatar_url(current_user, { size: 50 }) %>" alt="">
+            </div>
+            <div class="card-body p-0 text-center">
+              <a class="card-text"><%= link_to user.name, user_path(user) %></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <li class=" mb-3 p-3 border">
+            
+              <p class="text-center"><%= user.quotes.count %> lines underlined</p>
+              <div class="d-flex justify-content-around">
+              <span>Follower: <%= user.followers.count %></span>
+              <span>Following: <%= user.followings.count %></span>
+              </div>
+            
+          </li>
+        </div>
+      </div>
+    <% end %>
+  </ul>
+  <%= paginate users %>
+<% end %>

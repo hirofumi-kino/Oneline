@@ -1,0 +1,30 @@
+<ul class="list-unstyled">
+  <% quotes.each do |quote| %>
+    <img class="mr-2 rounded" src="<%= gravatar_url(quote.user, { size: 50 }) %>" alt="">
+    <li class="media mb-3 p-3 border">
+      
+      <div class="media-body">
+        <div>
+          <%= link_to quote.user.name, user_path(quote.user) %> <span class="text-muted">underlined at <%= quote.created_at %></span>
+        </div>
+        <div class="mt-2 mb-2">
+          <p><%= quote.sentence %></p>
+        </div>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="d-flex justify-content-around">
+                <span class="text-muted">Title:<%= link_to quote.book.title, title_path(quote.book.title) %></span>
+                <span class="text-muted">Author:<%= link_to quote.book.author, author_path(quote.book.author) %></span>
+              </div>
+            </div>
+            <div class="offset-sm-1 col-sm-1">
+              <% if current_user == quote.user %>
+                <%= link_to "Edit", edit_quote_path(quote), class: 'btn btn-outline-info btn-sm' %>
+              <% end %>
+            </div>
+          </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate quotes %>
+</ul>

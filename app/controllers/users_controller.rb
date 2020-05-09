@@ -1,11 +1,19 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show]
+  before_action :require_user_logged_in, only: [:index, :show, :followings, :followers]
   
   def index
+    if logged_in?
+      @quote = current_user.quotes.build 
+      @quotes = current_user.quotes.order(id: :desc).page(params[:page])
+    end
   end
 
   def show
     @user = User.find(params[:id])
+    if logged_in?
+    @quotes = @user.quotes.order(id: :desc).page(params[:page])
+    counts(@user)
+    end
   end
 
   def new
@@ -23,6 +31,19 @@ class UsersController < ApplicationController
       render :new
     end
   end
+  
+  def followings
+    @user = User.find(params[:id])
+    @followings = @user.followings.page(params[:page])
+    counts(@user)
+  end
+  
+  def followers
+    @user = User.find(params[:id])
+    @followers = @user.followers.page(params[:page])
+    counts(@user)
+  end
+
   
   private
   

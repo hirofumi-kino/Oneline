@@ -8,6 +8,15 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
  
  get 'signup', to: 'users#new'
-  resources :users, only: [:index, :show, :new, :create]
- 
+  resources :users, only: [:index, :show, :new, :create]do
+    member do
+      get :followings
+      get :followers
+    end
+  end
+  
+  resources :relationships, only: [:create, :destroy]
+  resources :quotes, only: [:create, :destroy, :edit]
+   get 'book_title/:title', to: 'books#title', as: 'title'
+   get 'book_author/:author', to: 'books#author', as: 'author'
 end
