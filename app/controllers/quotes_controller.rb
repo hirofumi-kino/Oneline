@@ -3,15 +3,16 @@ class QuotesController < ApplicationController
   before_action :correct_user, only: [:destroy, :edit]
   
   def create
-    book = Book.find_or_create_by(title: book_params[:title]) do |book|
+    book = Book.find_or_create_by(title: book_params[:title], author:book_params[:author]) do |book|
            book.author = book_params[:author]
+         end
            
-    @quote = current_user.quotes.new(quote_params)
-    @quote.book_id = book.id
-    end
+    quote = current_user.quotes.new(quote_params)
+    quote.book_id = book.id
 
         
-    if @quote.save
+    if quote.valid?
+      quote.save
       flash[:success] = 'メッセージを投稿しました。'
       redirect_to root_url
     else
