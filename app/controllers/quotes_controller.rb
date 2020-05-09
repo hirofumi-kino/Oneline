@@ -5,21 +5,20 @@ class QuotesController < ApplicationController
   def create
     book = Book.find_or_create_by(title: book_params[:title]) do |book|
            book.author = book_params[:author]
-         end
            
-    quote = current_user.quotes.new(quote_params)
-    quote.book_id = book.id
+    @quote = current_user.quotes.new(quote_params)
+    @quote.book_id = book.id
+    end
 
         
-    if quote.valid?
-      quote.save
+    if @quote.save
       flash[:success] = 'メッセージを投稿しました。'
       redirect_to root_url
     else
       @user = User.find(current_user.id)
       @quotes = current_user.feed_quotes.order(id: :desc).page(params[:page])
-      flash.now[:danger] = 'メッセージの投稿に失敗しました。'
-      render 'toppages/index'
+      flash[:danger] = 'メッセージの投稿に失敗しました。'
+      redirect_back(fallback_location: root_path)
     end
   end
  
