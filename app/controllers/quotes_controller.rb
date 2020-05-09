@@ -16,6 +16,7 @@ class QuotesController < ApplicationController
       flash[:success] = 'メッセージを投稿しました。'
       redirect_to root_url
     else
+      @user = User.find(current_user.id)
       @quotes = current_user.feed_quotes.order(id: :desc).page(params[:page])
       flash.now[:danger] = 'メッセージの投稿に失敗しました。'
       render 'toppages/index'
