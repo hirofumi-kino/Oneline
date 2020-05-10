@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
   
   resources :relationships, only: [:create, :destroy]
-  resources :quotes, only: [:create, :destroy, :edit]
+  resources :quotes, only: [:create, :destroy, :edit, :update]
    get 'book_title/:title', to: 'books#title', as: 'title'
    get 'book_author/:author', to: 'books#author', as: 'author'
 end

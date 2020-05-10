@@ -1,18 +1,19 @@
 class QuotesController < ApplicationController
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy, :edit]
+  before_action :correct_user, only: [:destroy, :edit, :update]
   
   def create
-    book = Book.find_or_create_by(title: book_params[:title], author:book_params[:author]) do |book|
+    book = Book.find_or_create_by(title: book_params[:title], author: book_params[:author]) do |book|
+           book.title = book_params[:title]
            book.author = book_params[:author]
          end
            
     quote = current_user.quotes.new(quote_params)
     quote.book_id = book.id
 
-        
-    if quote.valid?
-      quote.save
+        #quote.valid?
+    if quote.save
+      
       flash[:success] = 'メッセージを投稿しました。'
       redirect_to root_url
     else
@@ -34,6 +35,21 @@ class QuotesController < ApplicationController
       @quotes = current_user.feed_quotes.order(id: :desc).page(params[:page])
       @user = User.find(current_user.id)
       @quote = Quote.find(params[:id])
+    end
+  end
+  
+  def update
+    book = Book.find_or_create_by(title: book_params[:title], author: book_params[:author]) do |book|
+            book.title = book_params[:title]
+            book.author = book_params[:author]
+            end
+    
+    if @quote.update(sentence: quote_params[:sentence], book_id: book.id)  
+      flash[:success] = '正常に更新されました'
+      redirect_to root_url
+    else
+      flash[:danger] = '更新されませんでした'
+      redirect_back(fallback_location: root_path)
     end
   end
   
