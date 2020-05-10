@@ -33,12 +33,14 @@ class UsersController < ApplicationController
   end
   
   def followings
+    @quote = current_user.quotes.build 
     @user = User.find(params[:id])
     @followings = @user.followings.page(params[:page])
     counts(@user)
   end
   
   def followers
+    @quote = current_user.quotes.build 
     @user = User.find(params[:id])
     @followers = @user.followers.page(params[:page])
     counts(@user)
