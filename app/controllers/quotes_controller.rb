@@ -19,8 +19,9 @@ class QuotesController < ApplicationController
     else
       @user = User.find(current_user.id)
       @quotes = current_user.feed_quotes.order(id: :desc).page(params[:page])
-      flash[:danger] = 'メッセージの投稿に失敗しました。'
-      redirect_back(fallback_location: root_path)
+      flash.now[:danger] = 'メッセージの投稿に失敗しました。'
+      #redirect_back(fallback_location: root_path)
+      render "users/show"
     end
   end
  
@@ -35,6 +36,9 @@ class QuotesController < ApplicationController
       @quotes = current_user.feed_quotes.order(id: :desc).page(params[:page])
       @user = User.find(current_user.id)
       @quote = Quote.find(params[:id])
+      @book = Book.find(@quote.book_id)
+      @book_title = @book.title
+      @book_author = @book.author
     end
   end
   
@@ -69,5 +73,5 @@ class QuotesController < ApplicationController
       redirect_to root_url
     end
   end
-  
+
 end

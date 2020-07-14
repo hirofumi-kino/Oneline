@@ -1,22 +1,23 @@
 <% if logged_in? %>
   <div class="row">
-    <aside class="col-sm-2">
+    <aside class="col-sm-4">
       <div class="card">
       <div class="card-header">
         <img class="rounded img-fluid" src="<%= gravatar_url(current_user, { size: 500 }) %>" alt="">
       </div>
       <div class="card-body">
-        <h3 class="card-title text-center p-0 m-0"><%= current_user.name %></h3>
+        <h3 class="card-title text-center"><%= current_user.name %></h3>
       </div>
     </div>
     <div class="mt-2 d-flex justify-content-around">
-      <a class="btn btn-outline-primary" href="<%= followings_user_path(@user) %>">Following</a>
-      <a class="btn btn-outline-primary" href="<%= followers_user_path(@user) %>">Follower</a>
+      <a class="btn btn-outline-primary" href="<%= followings_user_path(current_user.id) %>">Following</a>
+      <a class="btn btn-outline-primary" href="<%= followers_user_path(current_user.id) %>">Follower</a>
     </div>
     
     <div class="mt-3">
       <%= form_with(model: @quote, local: true) do |f| %>
       <%= render 'layouts/error_messages', model: f.object %>
+     
        
         <div class="form-group">
           <%= f.label :sentence, 'One line' %>
@@ -37,39 +38,22 @@
       <% end %>
       </div>
     </aside>
-    <div class="col-sm-10">
+    <div class="col-sm-8">
       
       <%= render 'quotes/quotes', quotes: @quotes %>
       
     </div>
   </div>
 <% else %>
-
-  <!-- <div class="center jumbotron"> 
+  <div class="center jumbotron">
     <div class="text-center">
 
       <h1 class="bg-success text-white rounded-pill p-3">One line</h1>
 
         <div class="d-flex flex-column align-items-center">
-          <%= link_to 'Login', login_path, class: 'm-3 btn btn-primary btn-lg' %> 
+          <%= link_to 'Login', login_path, class: 'm-3 btn btn-primary btn-lg' %>
           <%= link_to 'Sign up', signup_path, class: 'm-3 btn btn-primary btn-lg' %>
         </div>
     </div>
-  </div> -->
-  
-  <div class="row">
-    <aside class="col-sm-3">
-      <h4 class = "text-center m-2" >あなたの好きな一文を投稿しましょう</h4>
-      <div class="d-flex flex-column align-items-center m-2">
-      <%= link_to 'Login', login_path, class: 'm-3 btn btn-outline-primary btn-lg' %> 
-      <%= link_to 'Sign up', signup_path, class: 'm-3 btn btn-outline-primary btn-lg' %>
-      </div>
-    </aside>
-    <div class="col-sm-9">
-      
-      <%= render 'quotes/quotes', quotes: @quotes %>
-      
-    </div>
   </div>
-  
 <% end %>

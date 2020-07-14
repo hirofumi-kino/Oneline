@@ -9,6 +9,14 @@ class BooksController < ApplicationController
     @books_quotes = Quote.where(book_id: @books.ids)
     @quotes = @books_quotes.order(id: :desc).page(params[:page])
     
+    else
+    
+    
+    @title = params[:title]
+    @books = Book.where(title: params[:title])
+    @books_quotes = Quote.where(book_id: @books.ids)
+    @quotes = @books_quotes.order(id: :desc).page(params[:page])
+    
     end
   end
   
@@ -20,6 +28,13 @@ class BooksController < ApplicationController
     @books = Book.where(author: params[:author])
     @books_quotes = Quote.where(book_id: @books.ids)
     @quotes = @books_quotes.order(id: :desc).page(params[:page])
+    
+    else
+    @author = params[:author]
+    @books = Book.where(author: params[:author])
+    @books_quotes = Quote.where(book_id: @books.ids)
+    @quotes = @books_quotes.order(id: :desc).page(params[:page])
+      
     end
   end
 

@@ -3,8 +3,11 @@ class ToppagesController < ApplicationController
      
     if logged_in?
       @quote = current_user.quotes.build 
-      @quotes = current_user.feed_quotes.order(id: :desc).page(params[:page])
+      @quotes = Quote.all.order(id: :desc).page(params[:page])
+      #@quotes = current_user.feed_quotes.order(id: :desc).page(params[:page])
       @user = User.find(current_user.id)
+    else
+      @quotes = Quote.all.order(id: :desc).page(params[:page])
     end
   end
  

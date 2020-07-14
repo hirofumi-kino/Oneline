@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     if logged_in?
+    @quote = current_user.quotes.build 
     @quotes = @user.quotes.order(id: :desc).page(params[:page])
     counts(@user)
     end
